@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.installerxui.R
+import com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout
 
 class XmlPreferenceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,17 +13,17 @@ class XmlPreferenceActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.action_bar)
         setSupportActionBar(toolbar)
 
-        // 显示返回箭头
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-            getSupportActionBar()?.setHomeButtonEnabled(true)
-        }
+        // 通过 CollapsingToolbarLayout 子类控制返回按钮：true 开启，false 关闭
+        findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
+            .setBackButtonEnabled(true)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, SettingsFragment())
                 .commit()
         }
     }
+
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
