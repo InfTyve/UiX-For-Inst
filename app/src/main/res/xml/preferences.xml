@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.preference.PreferenceCategory
+        android:title="视觉开关" />
+
+    <com.example.installerxui.ui.preference.ComposeSwitchPreference
+        android:key="use_blur"
+        android:title="液态玻璃背景"
+        android:summary="卡片使用流体动画 + 半透明模糊"
+        android:defaultValue="true" />
+
+    <com.example.installerxui.ui.preference.ComposeSwitchPreference
+        android:key="secure_mode"
+        android:title="安全模式"
+        android:summary="安装前进行签名与来源校验"
+        android:defaultValue="true" />
+    
+    <com.example.installerxui.ui.preference.ComposePreference android:title="hello"/>
+    <com.example.installerxui.ui.preference.ComposePreference 
+        app:iconDrawable="@drawable/ic_keyboard_black_24dp"
+        android:summary="test"
+        android:title="hello"/>
+    <com.example.installerxui.ui.preference.ComposeDropDownMenuPreference
+        android:key="resolution"
+        android:title="System"
+        android:summary="当前：%s"
+        android:entries="@array/test_mode_entries"
+        android:entryValues="@array/test_mode_values"
+        android:defaultValue="001" />
+</androidx.preference.PreferenceScreen>
