@@ -13,6 +13,10 @@ class XmlPreferenceActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.action_bar)
         setSupportActionBar(toolbar)
 
+        // 大标题文字：CollapsingToolbarLayout 展开态显示
+        findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
+            .setTitle(getString(R.string.app_name))
+
         // 通过 CollapsingToolbarLayout 子类控制返回按钮：true 开启，false 关闭
         findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
             .setBackButtonEnabled(true)

@@ -14,7 +14,7 @@
         android:background="@color/background"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="160dp"
@@ -38,17 +38,9 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
-                <!-- ExpressiveBackButton 承载容器：Toolbar 起始位置，覆盖系统返回箭头 -->
-                <androidx.compose.ui.platform.ComposeView
-                    android:id="@+id/back_button_container"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="4dp" />
-
             </androidx.appcompat.widget.Toolbar>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- 内容真正放这里（首页会替换成一个 PreferenceFragment） -->

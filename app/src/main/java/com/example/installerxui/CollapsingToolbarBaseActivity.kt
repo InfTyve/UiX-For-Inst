@@ -6,20 +6,19 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.compose.ui.platform.ComposeView
-import com.example.installerxui.ui.theme.InstallerXTheme
-import com.example.installerxui.ui.widget.setting.ExpressiveBackButton
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
 /**
  * 模仿 Android 12 Settings 的“大标题”基类（Kotlin 版）。
  *
- * 头部（AppBarLayout + CollapsingToolbarLayout）始终浮在内容上方，
+ * 头部（AppBarLayout + ExpressiveCollapsingToolbarLayout）始终浮在内容上方，
  * 并通过 canDrag() = false 关闭随列表滚动自动折叠的行为，
  * 展开/收起由子类通过 [setToolbarExpanded] 主动控制（例如跳转二级页时收起）。
  *
- * 返回按钮使用 Compose 的 ExpressiveBackButton（替代系统返回箭头，保留大标题）。
+ * 返回按钮由 ExpressiveCollapsingToolbarLayout 统一承载（布局中无需手写容器），
+ * 子类可通过 findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
+ * .setBackButtonEnabled(true/false) 控制显隐。
  */
 abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
 
@@ -38,13 +37,6 @@ abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.action_bar)
         setSupportActionBar(toolbar)
-
-        // 用 Compose 的 ExpressiveBackButton 替代系统返回箭头（保留 CollapsingToolbar 大标题）
-        findViewById<ComposeView>(R.id.back_button_container).setContent {
-            InstallerXTheme {
-                ExpressiveBackButton(onClick = { finish() })
-            }
-        }
 
         appBarLayout?.let { disableAutoCollapse(it) }
     }
