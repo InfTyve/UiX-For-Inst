@@ -14,7 +14,7 @@
         android:background="@color/background"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout_Two
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="160dp"
@@ -48,7 +48,7 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout_Two>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- 内容真正放这里（首页会替换成一个 PreferenceFragment） -->
