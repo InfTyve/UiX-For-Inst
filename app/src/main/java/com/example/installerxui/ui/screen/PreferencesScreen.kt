@@ -6,14 +6,17 @@ import android.os.Build
 import com.example.installerxui.ui.preference.XmlPreferenceActivity
 import com.example.installerxui.ui.widget.setting.BigTitleImpl
 import com.example.installerxui.ui.widget.setting.DropDownMenuWidget
+import com.example.installerxui.ui.widget.setting.MainTitleImpl
 import com.example.installerxui.ui.widget.setting.loadBigTitleImpl
-import com.example.installerxui.ui.widget.setting.rootImplementation
+import com.example.installerxui.ui.widget.setting.loadMainTitleImpl
 import com.example.installerxui.ui.widget.setting.saveBigTitleImpl
+import com.example.installerxui.ui.widget.setting.saveMainTitleImpl
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -57,7 +60,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.installerxui.LabActivity
@@ -81,29 +86,17 @@ fun PreferencesScreen() {
     var hideLauncherIcon by remember { mutableStateOf(false) }
     var advancedExpanded by remember { mutableStateOf(false) }
     var bigTitleImpl by remember { mutableStateOf(loadBigTitleImpl(context)) }
+    var mainTitleImpl by remember { mutableStateOf(loadMainTitleImpl(context)) }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.title_preferences)) },
-                navigationIcon = {
-                    ExpressiveBackButton(
-                        onClick = { (context as? Activity)?.finish() },
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                ),
-            )
-        },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        ) {
+    // 主页大标题头部由 MingActivity 的 CollapsingToolbarBaseActivity 承载，
+    // 这里不再包 Scaffold/TopAppBar；LazyColumn 必须带 nestedScroll 才能联动 AppBar 折叠。
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .nestedScroll(rememberNestedScrollInteropConnection()),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+    ) {
             item {
                 StatusCard(
                     appName = stringResource(R.string.status_app_name),
@@ -143,6 +136,20 @@ fun PreferencesScreen() {
                                 onChoiceChange = { index ->
                                     bigTitleImpl = BigTitleImpl.entries[index]
                                     saveBigTitleImpl(context, bigTitleImpl)
+                                },
+                        )
+                    }
+                    item {
+                        DropDownMenuWidget(
+                                icon = Icons.Filled.Settings,
+                                title = stringResource(R.string.main_big_title_style),
+                                description = stringResource(R.string.main_big_title_desc),
+                                choice = mainTitleImpl.ordinal,
+                                data = MainTitleImpl.entries.map { stringResource(it.labelRes) },
+                                onChoiceChange = { index ->
+                                    mainTitleImpl = MainTitleImpl.entries[index]
+                                    saveMainTitleImpl(context, mainTitleImpl)
+                                    (context as? Activity)?.recreate()
                                 },
                         )
                     }
@@ -229,7 +236,6 @@ fun PreferencesScreen() {
                 HighlightableCard()
             }
         }
-    }
 }
 
 /**

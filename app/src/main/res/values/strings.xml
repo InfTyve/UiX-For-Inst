@@ -68,6 +68,10 @@
     <string name="big_title_one">One 自动注入</string>
     <string name="big_title_two">Two 手写容器</string>
     <string name="big_title_original">原来的顶部栏</string>
+    <string name="main_big_title_style">主界面大标题</string>
+    <string name="main_big_title_desc">主页 / 实验室统一切换</string>
+    <string name="main_big_title_one">One 自动注入 · 滚动缩放</string>
+    <string name="main_big_title_two">Two 手写容器 · 淡出</string>
 
     <!-- preferences.xml -->
     <string name="category_visual">视觉开关</string>
