@@ -4,6 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import com.example.installerxui.ui.preference.XmlPreferenceActivity
+import com.example.installerxui.ui.widget.setting.BigTitleImpl
+import com.example.installerxui.ui.widget.setting.DropDownMenuWidget
+import com.example.installerxui.ui.widget.setting.loadBigTitleImpl
+import com.example.installerxui.ui.widget.setting.rootImplementation
+import com.example.installerxui.ui.widget.setting.saveBigTitleImpl
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -73,6 +78,7 @@ fun PreferencesScreen() {
     var ignoreBattery by remember { mutableStateOf(false) }
     var hideLauncherIcon by remember { mutableStateOf(false) }
     var advancedExpanded by remember { mutableStateOf(false) }
+    var bigTitleImpl by remember { mutableStateOf(loadBigTitleImpl(context)) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -123,6 +129,19 @@ fun PreferencesScreen() {
                             title = "安装器设置",
                             description = "安装模式、签名等",
                             onClick = {},
+                        )
+                    }
+                    item {
+                        DropDownMenuWidget(
+                                icon = Icons.Filled.Settings,
+                                title = "切换大标题样式",
+                                description = bigTitleImpl.label,
+                                choice = bigTitleImpl.ordinal,
+                                data = BigTitleImpl.entries.map { it.label },
+                                onChoiceChange = { index ->
+                                    bigTitleImpl = BigTitleImpl.entries[index]
+                                    saveBigTitleImpl(context, bigTitleImpl)
+                                },
                         )
                     }
                     item {

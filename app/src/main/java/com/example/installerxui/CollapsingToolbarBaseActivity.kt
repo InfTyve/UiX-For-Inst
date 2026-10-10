@@ -6,6 +6,9 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.example.installerxui.ui.widget.setting.BigTitleImpl
+import com.example.installerxui.ui.widget.setting.loadBigTitleImpl
+import com.example.installerxui.ui.widget.setting.rootImplementation
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
@@ -28,8 +31,17 @@ abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 恢复持久化的大标题栏实现选择（进程重启后仍保留）
+        rootImplementation = loadBigTitleImpl(this)
         // 先加载头部布局本身，子类再把内容放进 content_frame
-        super.setContentView(R.layout.activity_collapsing_toolbar)
+        // 按 DropDownMenuWidget 的选择切换 One / Two 实现：
+        // ONE -> activity_collapsing_toolbar_one（160dp 自动注入）
+        // TWO -> activity_collapsing_toolbar（160dp 手写容器）
+        val baseLayout = when (rootImplementation) {
+            BigTitleImpl.ONE -> R.layout.activity_collapsing_toolbar_one
+            BigTitleImpl.TWO -> R.layout.activity_collapsing_toolbar
+        }
+        super.setContentView(baseLayout)
 
         contentFrame = findViewById(R.id.content_frame)
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar)
