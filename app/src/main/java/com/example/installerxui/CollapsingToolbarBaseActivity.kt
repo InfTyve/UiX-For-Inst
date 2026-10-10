@@ -34,12 +34,14 @@ abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
         // 恢复持久化的大标题栏实现选择（进程重启后仍保留）
         rootImplementation = loadBigTitleImpl(this)
         // 先加载头部布局本身，子类再把内容放进 content_frame
-        // 按 DropDownMenuWidget 的选择切换 One / Two 实现：
+        // 按 DropDownMenuWidget 的选择切换 One / Two / Original 实现：
         // ONE -> activity_collapsing_toolbar_one（160dp 自动注入）
         // TWO -> activity_collapsing_toolbar（160dp 手写容器）
+        // ORIGINAL -> activity_preference_original（普通固定顶部栏）
         val baseLayout = when (rootImplementation) {
             BigTitleImpl.ONE -> R.layout.activity_collapsing_toolbar_one
             BigTitleImpl.TWO -> R.layout.activity_collapsing_toolbar
+            BigTitleImpl.ORIGINAL -> R.layout.activity_preference_original
         }
         super.setContentView(baseLayout)
 

@@ -15,6 +15,7 @@ import android.content.Context
 enum class BigTitleImpl(val label: String) {
     ONE("One 自动注入"),
     TWO("Two 手写容器"),
+    ORIGINAL("原来的顶部栏"),
 }
 
 /** 全局切换状态：默认 One（对应原 activity_preference / activity_collapsing_toolbar_one） */

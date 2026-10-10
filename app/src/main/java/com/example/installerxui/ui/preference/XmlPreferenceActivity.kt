@@ -17,12 +17,14 @@ class XmlPreferenceActivity : AppCompatActivity() {
         // 恢复持久化的大标题栏实现选择（进程重启后仍保留）
         rootImplementation = loadBigTitleImpl(this)
 
-        // 按 DropDownMenuWidget 的选择切换 One / Two 实现：
+        // 按 DropDownMenuWidget 的选择切换 One / Two / Original 实现：
         // ONE -> activity_preference（200dp 自动注入，无手写容器）
         // TWO -> activity_preference_two（200dp 手写容器）
+        // ORIGINAL -> activity_preference_original（普通固定顶部栏）
         val layoutRes = when (rootImplementation) {
             BigTitleImpl.ONE -> R.layout.activity_preference
             BigTitleImpl.TWO -> R.layout.activity_preference_two
+            BigTitleImpl.ORIGINAL -> R.layout.activity_preference_original
         }
         setContentView(layoutRes)
 
@@ -35,6 +37,7 @@ class XmlPreferenceActivity : AppCompatActivity() {
                 .setTitle(getString(R.string.app_name))
             BigTitleImpl.TWO -> findViewById<ExpressiveCollapsingToolbarLayout_Two>(R.id.collapsing_toolbar)
                 .setTitle(getString(R.string.app_name))
+            BigTitleImpl.ORIGINAL -> supportActionBar?.title = getString(R.string.app_name)
         }
 
         // 通过子类控制返回按钮：true 开启，false 关闭（两个子类接口一致）
@@ -43,6 +46,7 @@ class XmlPreferenceActivity : AppCompatActivity() {
                 .setBackButtonEnabled(true)
             BigTitleImpl.TWO -> findViewById<ExpressiveCollapsingToolbarLayout_Two>(R.id.collapsing_toolbar)
                 .setBackButtonEnabled(true)
+            BigTitleImpl.ORIGINAL -> supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
         if (savedInstanceState == null) {
