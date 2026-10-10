@@ -6,22 +6,27 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.example.installerxui.ui.widget.setting.BigTitleImpl
-import com.example.installerxui.ui.widget.setting.loadBigTitleImpl
-import com.example.installerxui.ui.widget.setting.rootImplementation
+import com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout
+import com.example.installerxui.ui.widget.setting.ExpressiveCollapsingToolbarLayout_Two
+import com.example.installerxui.ui.widget.setting.MainTitleImpl
+import com.example.installerxui.ui.widget.setting.loadMainTitleImpl
+import com.example.installerxui.ui.widget.setting.mainImplementation
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
 /**
- * 模仿 Android 12 Settings 的“大标题”基类（Kotlin 版）。
+ * 模仿 Android 12 Settings 的“大标题”基类（Kotlin 版），
+ * 供主界面（主页 / 实验室）使用。
  *
  * 头部（AppBarLayout + ExpressiveCollapsingToolbarLayout）始终浮在内容上方，
  * 并通过 canDrag() = false 关闭随列表滚动自动折叠的行为，
  * 展开/收起由子类通过 [setToolbarExpanded] 主动控制（例如跳转二级页时收起）。
  *
- * 返回按钮由 ExpressiveCollapsingToolbarLayout 统一承载（布局中无需手写容器），
- * 子类可通过 findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
- * .setBackButtonEnabled(true/false) 控制显隐。
+ * 折叠效果由独立的 MainTitleImpl 控制（与 preference 页的 BigTitleImpl 互不影响）：
+ * ONE -> activity_collapsing_toolbar_one（SCALE 滚动缩放，返回按钮自动注入）
+ * TWO -> activity_collapsing_toolbar（FADE 淡出，返回按钮手写容器）
+ *
+ * 子类可通过 [setBackButton] 控制返回按钮显隐。
  */
 abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
 
@@ -31,17 +36,15 @@ abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 恢复持久化的大标题栏实现选择（进程重启后仍保留）
-        rootImplementation = loadBigTitleImpl(this)
+        // 恢复持久化的主界面大标题实现选择（进程重启后仍保留）
+        mainImplementation = loadMainTitleImpl(this)
         // 先加载头部布局本身，子类再把内容放进 content_frame
-        // 按 DropDownMenuWidget 的选择切换 One / Two / Original 实现：
-        // ONE -> activity_collapsing_toolbar_one（160dp 自动注入）
-        // TWO -> activity_collapsing_toolbar（160dp 手写容器）
-        // ORIGINAL -> activity_preference_original（普通固定顶部栏）
-        val baseLayout = when (rootImplementation) {
-            BigTitleImpl.ONE -> R.layout.activity_collapsing_toolbar_one
-            BigTitleImpl.TWO -> R.layout.activity_collapsing_toolbar
-            BigTitleImpl.ORIGINAL -> R.layout.activity_preference_original
+        // 按独立 DropDownMenuWidget 的选择切换两套折叠效果：
+        // ONE -> activity_collapsing_toolbar_one（SCALE 滚动缩放，自动注入返回按钮）
+        // TWO -> activity_collapsing_toolbar（FADE 淡出，手写容器）
+        val baseLayout = when (mainImplementation) {
+            MainTitleImpl.ONE -> R.layout.activity_collapsing_toolbar_one
+            MainTitleImpl.TWO -> R.layout.activity_collapsing_toolbar
         }
         super.setContentView(baseLayout)
 
@@ -53,6 +56,16 @@ abstract class CollapsingToolbarBaseActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         appBarLayout?.let { disableAutoCollapse(it) }
+    }
+
+    /** 按当前主界面大标题实现分支设置返回按钮显隐（子类在 onCreate 中调用） */
+    fun setBackButton(visible: Boolean) {
+        when (mainImplementation) {
+            MainTitleImpl.ONE -> findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
+                .setBackButtonEnabled(visible)
+            MainTitleImpl.TWO -> findViewById<ExpressiveCollapsingToolbarLayout_Two>(R.id.collapsing_toolbar)
+                .setBackButtonEnabled(visible)
+        }
     }
 
     /** 子类调用 setContentView 时，把内容放到 content_frame，头部保持不变 */
