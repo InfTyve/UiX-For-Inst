@@ -40,6 +40,11 @@ class ExpressiveCollapsingToolbarLayout_Two @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : CollapsingToolbarLayout(context, attrs, defStyleAttr) {
 
+    init {
+        // 旧版：大标题淡出，折叠后顶部栏标题淡入
+        titleCollapseMode = CollapsingToolbarLayout.TITLE_COLLAPSE_MODE_FADE
+    }
+
     private var backButtonContainer: ComposeView? = null
 
     override fun onFinishInflate() {
