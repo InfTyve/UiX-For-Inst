@@ -58,8 +58,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.installerxui.LabActivity
+import com.example.installerxui.R
 import com.example.installerxui.ui.animation.InteractiveHighlight
 import com.example.installerxui.ui.widget.BaseWidget
 import com.example.installerxui.ui.widget.NavigationItemWidget
@@ -84,7 +86,7 @@ fun PreferencesScreen() {
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
             TopAppBar(
-                title = { Text("偏好设置") },
+                title = { Text(stringResource(R.string.title_preferences)) },
                 navigationIcon = {
                     ExpressiveBackButton(
                         onClick = { (context as? Activity)?.finish() },
@@ -104,40 +106,40 @@ fun PreferencesScreen() {
         ) {
             item {
                 StatusCard(
-                    appName = "InstallerX UI",
-                    version = "Preview 1.0.0 (1)",
+                    appName = stringResource(R.string.status_app_name),
+                    version = stringResource(R.string.status_version),
                     useBlur = true,
                 )
             }
             item {
-                InfoTipCard("这是复刻 InstallerX 风格的提示卡，用于展示须知信息。")
+                InfoTipCard(stringResource(R.string.tip_default))
             }
 
             item {
-                SegmentedColumn(title = "个性化") {
+                SegmentedColumn(title = stringResource(R.string.section_personalization)) {
                     item {
                         NavigationItemWidget(
                             icon = Icons.Filled.Palette,
-                            title = "主题设置",
-                            description = "深色 / 浅色 / 跟随系统",
+                            title = stringResource(R.string.theme_settings),
+                            description = stringResource(R.string.theme_settings_desc),
                             onClick = {},
                         )
                     }
                     item {
                         NavigationItemWidget(
                             icon = Icons.Filled.Settings,
-                            title = "安装器设置",
-                            description = "安装模式、签名等",
+                            title = stringResource(R.string.installer_settings),
+                            description = stringResource(R.string.installer_settings_desc),
                             onClick = {},
                         )
                     }
                     item {
                         DropDownMenuWidget(
                                 icon = Icons.Filled.Settings,
-                                title = "切换大标题样式",
-                                description = bigTitleImpl.label,
+                                title = stringResource(R.string.big_title_style),
+                                description = stringResource(bigTitleImpl.labelRes),
                                 choice = bigTitleImpl.ordinal,
-                                data = BigTitleImpl.entries.map { it.label },
+                                data = BigTitleImpl.entries.map { stringResource(it.labelRes) },
                                 onChoiceChange = { index ->
                                     bigTitleImpl = BigTitleImpl.entries[index]
                                     saveBigTitleImpl(context, bigTitleImpl)
@@ -147,16 +149,16 @@ fun PreferencesScreen() {
                     item {
                         NavigationItemWidget(
                             icon = Icons.Filled.Delete,
-                            title = "卸载器设置",
-                            description = "卸载选项",
+                            title = stringResource(R.string.uninstaller_settings),
+                            description = stringResource(R.string.uninstaller_settings_desc),
                             onClick = {},
                         )
                     }
                     item {
                         NavigationItemWidget(
                             icon = Icons.Filled.Science,
-                            title = "实验室",
-                            description = "实验性功能",
+                            title = stringResource(R.string.lab),
+                            description = stringResource(R.string.lab_desc),
                             onClick = {
                                 context.startActivity(Intent(context, LabActivity::class.java))
                             },
@@ -165,8 +167,8 @@ fun PreferencesScreen() {
                     item {
                         NavigationItemWidget(
                             icon = Icons.Filled.Science,
-                            title = "Preference",
-                            description = "To do",
+                            title = stringResource(R.string.preference),
+                            description = stringResource(R.string.preference_desc),
                             onClick = {
                                 context.startActivity(Intent(context, XmlPreferenceActivity::class.java))
                             },
@@ -176,12 +178,12 @@ fun PreferencesScreen() {
             }
 
             item {
-                SegmentedColumn(title = "基本") {
+                SegmentedColumn(title = stringResource(R.string.section_basic)) {
                     item {
                         SwitchWidget(
                             icon = Icons.Filled.Wifi,
-                            title = "网络设置",
-                            description = "允许联网下载资源",
+                            title = stringResource(R.string.network_settings),
+                            description = stringResource(R.string.network_settings_desc),
                             checked = internetAccess,
                             onCheckedChange = { internetAccess = it },
                         )
@@ -189,8 +191,8 @@ fun PreferencesScreen() {
                     item {
                         SwitchWidget(
                             icon = Icons.Filled.Shield,
-                            title = "停用 ADB 安装验证",
-                            description = "禁止安装扫描（Play 保护机制等）",
+                            title = stringResource(R.string.disable_adb_verify),
+                            description = stringResource(R.string.disable_adb_verify_desc),
                             checked = adbVerify,
                             onCheckedChange = { adbVerify = it },
                         )
@@ -198,8 +200,8 @@ fun PreferencesScreen() {
                     item {
                         SwitchWidget(
                             icon = Icons.Filled.BatteryFull,
-                            title = "忽略电池优化",
-                            description = "后台安装不被系统限制",
+                            title = stringResource(R.string.ignore_battery),
+                            description = stringResource(R.string.ignore_battery_desc),
                             checked = ignoreBattery,
                             onCheckedChange = { ignoreBattery = it },
                         )
@@ -207,8 +209,8 @@ fun PreferencesScreen() {
                     item {
                         SwitchWidget(
                             icon = Icons.Filled.VisibilityOff,
-                            title = "隐藏启动器图标",
-                            description = "从桌面隐藏应用入口",
+                            title = stringResource(R.string.hide_launcher_icon),
+                            description = stringResource(R.string.hide_launcher_icon_desc),
                             checked = hideLauncherIcon,
                             onCheckedChange = { hideLauncherIcon = it },
                         )
@@ -267,11 +269,11 @@ private fun ExpandableCard(
                     Spacer(modifier = Modifier.width(16.dp))
                     Column {
                         Text(
-                            text = "高级选项",
+                            text = stringResource(R.string.advanced_options),
                             style = MaterialTheme.typography.titleMedium,
                         )
                         Text(
-                            text = "点击展开 / 收起",
+                            text = stringResource(R.string.advanced_options_hint),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -280,7 +282,7 @@ private fun ExpandableCard(
                 IconButton(onClick = { onExpandedChange(!expanded) }) {
                     Icon(
                         imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-                        contentDescription = if (expanded) "收起" else "展开",
+                        contentDescription = stringResource(if (expanded) R.string.collapse else R.string.expand),
                     )
                 }
             }
@@ -291,8 +293,8 @@ private fun ExpandableCard(
             ) {
                 BaseWidget(
                     icon = Icons.Filled.Build,
-                    title = "展开的子项",
-                    description = "这是展开后显示的内容",
+                    title = stringResource(R.string.expanded_item),
+                    description = stringResource(R.string.expanded_item_desc),
                 )
             }
         }
@@ -338,11 +340,11 @@ private fun HighlightableCard() {
             )
             Column {
                 Text(
-                    text = "点按水波高亮",
+                    text = stringResource(R.string.ripple_highlight),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = "按住并拖动可看到 RuntimeShader 高亮跟随手指",
+                    text = stringResource(R.string.ripple_highlight_desc),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }

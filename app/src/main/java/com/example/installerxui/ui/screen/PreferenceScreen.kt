@@ -40,7 +40,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.installerxui.R
 import com.example.installerxui.ui.widget.setting.ExpressiveBackButton
 
 /**
@@ -60,7 +62,7 @@ fun PreferenceScreen() {
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
             TopAppBar(
-                title = { Text("偏好设置") },
+                title = { Text(stringResource(R.string.title_preferences)) },
                 navigationIcon = {
                     ExpressiveBackButton(
                         onClick = { (context as? Activity)?.finish() },
@@ -80,38 +82,38 @@ fun PreferenceScreen() {
         ) {
             item {
                 com.example.installerxui.ui.widget.StatusCard(
-                    appName = "InstallerX UI",
-                    version = "Preview 1.0.0 (1)",
+                    appName = stringResource(R.string.status_app_name),
+                    version = stringResource(R.string.status_version),
                     useBlur = true,
                 )
             }
             item {
-                com.example.installerxui.ui.widget.InfoTipCard("这是复刻 InstallerX 风格的提示卡，用于展示须知信息。")
+                com.example.installerxui.ui.widget.InfoTipCard(stringResource(R.string.tip_default))
             }
 
             item {
-                com.example.installerxui.ui.widget.SegmentedColumn(title = "个性化") {
+                com.example.installerxui.ui.widget.SegmentedColumn(title = stringResource(R.string.section_personalization)) {
                     item {
                         com.example.installerxui.ui.widget.NavigationItemWidget(
                             icon = Icons.Filled.Palette,
-                            title = "主题设置",
-                            description = "深色 / 浅色 / 跟随系统",
+                            title = stringResource(R.string.theme_settings),
+                            description = stringResource(R.string.theme_settings_desc),
                             onClick = {},
                         )
                     }
                     item {
                         com.example.installerxui.ui.widget.NavigationItemWidget(
                             icon = Icons.Filled.Settings,
-                            title = "安装器设置",
-                            description = "安装模式、签名等",
+                            title = stringResource(R.string.installer_settings),
+                            description = stringResource(R.string.installer_settings_desc),
                             onClick = {},
                         )
                     }
                     item {
                         com.example.installerxui.ui.widget.NavigationItemWidget(
                             icon = Icons.Filled.Delete,
-                            title = "卸载器设置",
-                            description = "卸载选项",
+                            title = stringResource(R.string.uninstaller_settings),
+                            description = stringResource(R.string.uninstaller_settings_desc),
                             onClick = {},
                         )
                     }
@@ -119,12 +121,12 @@ fun PreferenceScreen() {
             }
 
             item {
-                com.example.installerxui.ui.widget.SegmentedColumn(title = "基本") {
+                com.example.installerxui.ui.widget.SegmentedColumn(title = stringResource(R.string.section_basic)) {
                     item {
                         com.example.installerxui.ui.widget.SwitchWidget(
                             icon = Icons.Filled.Wifi,
-                            title = "网络设置",
-                            description = "允许联网下载资源",
+                            title = stringResource(R.string.network_settings),
+                            description = stringResource(R.string.network_settings_desc),
                             checked = internetAccess,
                             onCheckedChange = { internetAccess = it },
                         )
@@ -132,8 +134,8 @@ fun PreferenceScreen() {
                     item {
                         com.example.installerxui.ui.widget.SwitchWidget(
                             icon = Icons.Filled.Shield,
-                            title = "停用 ADB 安装验证",
-                            description = "禁止安装扫描（Play 保护机制等）",
+                            title = stringResource(R.string.disable_adb_verify),
+                            description = stringResource(R.string.disable_adb_verify_desc),
                             checked = adbVerify,
                             onCheckedChange = { adbVerify = it },
                         )
@@ -141,8 +143,8 @@ fun PreferenceScreen() {
                     item {
                         com.example.installerxui.ui.widget.SwitchWidget(
                             icon = Icons.Filled.BatteryFull,
-                            title = "忽略电池优化",
-                            description = "后台安装不被系统限制",
+                            title = stringResource(R.string.ignore_battery),
+                            description = stringResource(R.string.ignore_battery_desc),
                             checked = ignoreBattery,
                             onCheckedChange = { ignoreBattery = it },
                         )
@@ -150,8 +152,8 @@ fun PreferenceScreen() {
                     item {
                         com.example.installerxui.ui.widget.SwitchWidget(
                             icon = Icons.Filled.VisibilityOff,
-                            title = "隐藏启动器图标",
-                            description = "从桌面隐藏应用入口",
+                            title = stringResource(R.string.hide_launcher_icon),
+                            description = stringResource(R.string.hide_launcher_icon_desc),
                             checked = hideLauncherIcon,
                             onCheckedChange = { hideLauncherIcon = it },
                         )
@@ -160,22 +162,22 @@ fun PreferenceScreen() {
             }
 
             item {
-                com.example.installerxui.ui.widget.SegmentedColumn(title = "动画演示") {
+                com.example.installerxui.ui.widget.SegmentedColumn(title = stringResource(R.string.section_animation)) {
                     expandableItem(
                         expanded = advancedExpanded,
                         topContent = {
                             com.example.installerxui.ui.widget.NavigationItemWidget(
                                 icon = Icons.Filled.Build,
-                                title = "高级选项",
-                                description = "点击展开 / 收起，圆角平滑过渡",
+                                title = stringResource(R.string.advanced_options),
+                                description = stringResource(R.string.advanced_options_desc),
                                 onClick = { advancedExpanded = !advancedExpanded },
                             )
                         },
                         bottomContent = {
                             com.example.installerxui.ui.widget.BaseWidget(
                                 icon = Icons.Filled.Build,
-                                title = "展开的子项",
-                                description = "这是展开后显示的内容",
+                                title = stringResource(R.string.expanded_item),
+                                description = stringResource(R.string.expanded_item_desc),
                             )
                         },
                     )
@@ -228,11 +230,11 @@ private fun HighlightableCard() {
             )
             Column {
                 Text(
-                    text = "点按水波高亮",
+                    text = stringResource(R.string.ripple_highlight),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = "按住并拖动可看到 RuntimeShader 高亮跟随手指",
+                    text = stringResource(R.string.ripple_highlight_desc),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }

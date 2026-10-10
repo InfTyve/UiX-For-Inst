@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.example.installerxui.R
 
 /**
  * A standardized back button for the application.
@@ -36,7 +38,7 @@ fun ExpressiveBackButton(
     icon: ImageVector = Icons.AutoMirrored.Rounded.ArrowBack,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.6f),
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    contentDescription: String = "返回",
+    contentDescription: String = stringResource(R.string.back),
     onClick: () -> Unit,
 ) {
     IconButton(

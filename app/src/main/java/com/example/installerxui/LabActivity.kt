@@ -35,10 +35,10 @@ class LabActivity : AppCompatActivity() {
         // 标题
         when (rootImplementation) {
             BigTitleImpl.ONE -> findViewById<ExpressiveCollapsingToolbarLayout>(R.id.collapsing_toolbar)
-                .setTitle("实验室")
+                .setTitle(getString(R.string.title_lab))
             BigTitleImpl.TWO -> findViewById<ExpressiveCollapsingToolbarLayout_Two>(R.id.collapsing_toolbar)
-                .setTitle("实验室")
-            BigTitleImpl.ORIGINAL -> supportActionBar?.title = "实验室"
+                .setTitle(getString(R.string.title_lab))
+            BigTitleImpl.ORIGINAL -> supportActionBar?.title = getString(R.string.title_lab)
         }
 
         // 返回按钮

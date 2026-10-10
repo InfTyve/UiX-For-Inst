@@ -1,5 +1,6 @@
 package com.example.installerxui.ui.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,17 +13,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.installerxui.R
 import com.example.installerxui.ui.widget.InfoTipCard
 import com.example.installerxui.ui.widget.SegmentedColumn
 import com.example.installerxui.ui.widget.SwitchWidget
 import com.example.installerxui.ui.widget.setting.DropDownMenuWidget
 
 /** Root 实现（管理器）选项 */
-enum class RootImplementation(val label: String) {
-    Magisk("Magisk"),
-    KernelSU("KernelSU"),
-    APatch("APatch"),
+enum class RootImplementation(@StringRes val labelRes: Int) {
+    Magisk(R.string.root_magisk),
+    KernelSU(R.string.root_kernelsu),
+    APatch(R.string.root_apatch),
 }
 
 /**
@@ -35,19 +40,21 @@ fun LabPageContent() {
     var rootImplementation by remember { mutableStateOf(RootImplementation.Magisk) }
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(rememberNestedScrollInteropConnection()),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     ) {
         item {
-            InfoTipCard("实验性功能，可能不稳定。")
+            InfoTipCard(stringResource(R.string.tip_lab))
         }
         item {
-            SegmentedColumn(title = "模块") {
+            SegmentedColumn(title = stringResource(R.string.section_module)) {
                 item {
                     SwitchWidget(
                         icon = Icons.Filled.Build,
-                        title = "模块刷写",
-                        description = "开启后选择 Root 实现",
+                        title = stringResource(R.string.module_flash),
+                        description = stringResource(R.string.module_flash_desc),
                         checked = moduleFlashEnabled,
                         onCheckedChange = { moduleFlashEnabled = it },
                     )
@@ -56,10 +63,10 @@ fun LabPageContent() {
                     item {
                         DropDownMenuWidget(
                             icon = Icons.Filled.Settings,
-                            title = "Root 实现",
-                            description = rootImplementation.label,
+                            title = stringResource(R.string.root_implementation),
+                            description = stringResource(rootImplementation.labelRes),
                             choice = rootImplementation.ordinal,
-                            data = RootImplementation.entries.map { it.label },
+                            data = RootImplementation.entries.map { stringResource(it.labelRes) },
                             onChoiceChange = { index ->
                                 rootImplementation = RootImplementation.entries[index]
                             },

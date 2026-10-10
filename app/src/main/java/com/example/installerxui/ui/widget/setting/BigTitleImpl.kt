@@ -1,6 +1,8 @@
 package com.example.installerxui.ui.widget.setting
 
 import android.content.Context
+import androidx.annotation.StringRes
+import com.example.installerxui.R
 
 /**
  * 大标题折叠栏的两种实现方案（DropDownMenuWidget 切换目标）。
@@ -12,10 +14,10 @@ import android.content.Context
  *
  * 两个子类对外接口一致（均有 setBackButtonEnabled(Boolean)），切换只需换布局与 findViewById 泛型。
  */
-enum class BigTitleImpl(val label: String) {
-    ONE("One 自动注入"),
-    TWO("Two 手写容器"),
-    ORIGINAL("原来的顶部栏"),
+enum class BigTitleImpl(@StringRes val labelRes: Int) {
+    ONE(R.string.big_title_one),
+    TWO(R.string.big_title_two),
+    ORIGINAL(R.string.big_title_original),
 }
 
 /** 全局切换状态：默认 One（对应原 activity_preference / activity_collapsing_toolbar_one） */
