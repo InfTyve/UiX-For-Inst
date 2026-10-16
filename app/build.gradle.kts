@@ -32,20 +32,28 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.activity.compose)
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
     implementation(libs.androidx.preference.ktx)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.material)
+    implementation(libs.androidx.splashscreen)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.materialIcons)
 
-    debugImplementation(libs.androidx.ui.tooling)
+    // Preview support only for debug builds
+    debugImplementation(libs.compose.ui.tooling)
+
+    // monetcompat (动态取色)
+    implementation(libs.monetcompat)
+    implementation(libs.androidx.palette)
+
+    // material-kolor (动态取色)
+    implementation(libs.materialKolor)
+    implementation("androidx.compose.material:material-icons-core")
 }

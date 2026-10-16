@@ -73,6 +73,7 @@ import com.example.installerxui.ui.widget.NavigationItemWidget
 import com.example.installerxui.ui.widget.SegmentedColumn
 import com.example.installerxui.ui.widget.StatusCard
 import com.example.installerxui.ui.widget.SwitchWidget
+import com.example.installerxui.ui.widget.SwitchOw
 import com.example.installerxui.ui.widget.InfoTipCard
 import com.example.installerxui.ui.widget.setting.ExpressiveBackButton
 

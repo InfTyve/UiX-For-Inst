@@ -13,7 +13,12 @@
             "Bash(head)",
             "Bash(rg)",
             "Bash(sed)",
-            "Bash(sort)"
+            "Bash(sort)",
+            "Bash(unzip)",
+            "Bash(cat)",
+            "Bash(curl)",
+            "Bash(1)",
+            "Bash(javap)"
         ],
         "deny": []
     }
